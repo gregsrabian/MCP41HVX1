@@ -145,11 +145,11 @@ Constructor for creating an instance of the MCP41HVX1 class. This version of the
     
 **Example:**
 ```
-    int	nCSPin    = 10;
-	int	nWLATPin  = 9;
-	int	nSHDNPin  = 8;
+int	nCSPin    = 10;
+int	nWLATPin  = 9;
+int	nSHDNPin  = 8;
 	
-	MCP41HVX1 MyDigipot( nCSPin, nSHDNPin, MCP41HVX1_STATE_ENABLED, nWLATPin, MCP41HVX1_STATE_DISABLED);
+MCP41HVX1 MyDigipot( nCSPin, nSHDNPin, MCP41HVX1_STATE_ENABLED, nWLATPin, MCP41HVX1_STATE_DISABLED);
 ```
 
 ### Resistor Network (SHDN) Control Methods
