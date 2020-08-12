@@ -56,8 +56,8 @@ Alternate Wiring Definition (uses less Arduino pins with some loss of features):
 |  10 | CS (any digital pin)  |  3  | CS
 |  11 | SPI: MOSI             |  4  | SDI
 |  12 | SPI: MISO             |  5  | SDO
-| GND |                       |  6  | WLAT - wiring directly to HIGH (Arudino power) forces WLAT to always be enabled. Pass MCP41HVX1_PIN_NOT_CONFIGURED in the constructor for WLAT parameter.
-| +5v | 3.3v is also supported|  7  | SHDN - wiring directly to Arduino GND forces the resistor network to always be enabled. Pass MCP41HVX1_PIN_NOT_CONFIGURED in the constructor for SHDN parameter.
+| GND |                       |  6  | WLAT - wiring directly to LOW (Arudino GND) forces WLAT to always be enabled. Pass MCP41HVX1_PIN_NOT_CONFIGURED in the constructor for WLAT parameter.
+| +5v | 3.3v is also supported|  7  | SHDN - wiring directly to HIGH (Arduino Power) forces the resistor network to always be enabled. Pass MCP41HVX1_PIN_NOT_CONFIGURED in the constructor for SHDN parameter.
 | GND |                       |  8  | NC
 | GND |                       |  9  | GND
 | GND |                       | 10  | V-    (Connect to external power supply max 36 volts. Common ground with Arduino
