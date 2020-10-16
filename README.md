@@ -41,7 +41,7 @@ See the alternate wiring diagram if you are wiring either WLAT or SHDN to power 
 |   Arduino Uno               |   MCP41HVX1
 | Pin | Description           | Pin | Description
 +-----+-----------------------+-----+---------------------------
-| +5v | 3.3v is also supported|  1  | Power 1.8v to 5.5v 
+| +5v | 3.3v is also supported|  1  | Power 1.8v to 5.5v
 |  13 | SPI: SCK              |  2  | SCK
 |  10 | CS (any digital pin)  |  3  | CS
 |  11 | SPI: MOSI             |  4  | SDI
@@ -56,6 +56,8 @@ See the alternate wiring diagram if you are wiring either WLAT or SHDN to power 
 |     |                       | 13  | POA   (This is the potentiometer)
 |     |                       | 14  | V+    (Connect to external power supply max 36 volts)
 ```
+
+To achieve maximum performance, it is recommended to have an input voltage of at least 2.4v and to add a decoupling capacitor (0.1 µF from pin 1 to GND).
 
 ### Alternate Wiring Definition (uses less Arduino pins with some loss of features): ###
 ```
