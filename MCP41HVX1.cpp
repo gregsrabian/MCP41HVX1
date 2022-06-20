@@ -130,28 +130,34 @@ int MCP41HVX1::ResistorNetworkGetState()
 
 byte MCP41HVX1::WiperSetPosition( byte byWiper)
 {
+    SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
     digitalWrite( __nCSPin, LOW );
     SPI.transfer( 0x00);          // The command for wiper set position
     SPI.transfer( byWiper);       // The write command expects a second byte which is the value for the wiper
     digitalWrite( __nCSPin, HIGH);
-
+    SPI.endTransaction();
+    
     return( WiperGetPosition());
 }
 
 byte MCP41HVX1::WiperIncrement()
 {
+    SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
     digitalWrite( __nCSPin, LOW );
     SPI.transfer( 0x04);          // The command for wiper up (00000100 = 0x04)
     digitalWrite( __nCSPin, HIGH);
+    SPI.endTransaction();
 
     return( WiperGetPosition());
 }
 
 byte MCP41HVX1::WiperDecrement()
 {
+    SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
     digitalWrite( __nCSPin, LOW );
     SPI.transfer( 0x08);          // The command for wiper up (00001000 = 0x08)
     digitalWrite( __nCSPin, HIGH);
+    SPI.endTransaction();
 
     return( WiperGetPosition());
 }
@@ -159,9 +165,11 @@ byte MCP41HVX1::WiperDecrement()
 byte MCP41HVX1::WiperGetPosition()
 {
     int rc = 0;
+    SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
     digitalWrite( __nCSPin, LOW );
     rc = SPI.transfer16( 0x0C00); 	// The command for requesting the wiper position. The second byte sent has no useful info but it request 2 bytes sent and responds with 2 bytes  
     digitalWrite( __nCSPin, HIGH); 
+    SPI.endTransaction();
 
-    return( rc & 0xff);				// The wiper position is in the low order byte so & with 0xff to remove the extra info.
+    return( rc & 0xff);       // The wiper position is in the low order byte so & with 0xff to remove the extra info.
 }
