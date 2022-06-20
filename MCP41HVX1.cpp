@@ -51,6 +51,7 @@ MCP41HVX1::MCP41HVX1( int nCSPin, int nSHDNPin, bool bSHDNState, int nWLATPin, b
     SPI.begin();                      // Initialize SPI which is used to communicate to the MCP41HVX1 chip
 
     pinMode( __nCSPin, OUTPUT );     // Set the SS pin to OUTPUT
+    digitalWrite( __nCSPin, HIGH);   // Pull SS high (de-select)
 
     if( MCP41HVX1_PIN_NOT_CONFIGURED != __nSHDNPin)             // If SHDN Pin is connected then configure it
     {
