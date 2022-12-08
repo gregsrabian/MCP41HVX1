@@ -27,9 +27,10 @@ The MCP41HVX1 family of chips have a split rail design. This means that the cont
 
 The internal architecture of the MPC41HVX1 chips are actually two seperate devices inside a single package. There is the resistor network itself with higer voltage input as well as the potentiometer connections (P0A, P0W, and POB). The other device is the part that communicates with the Arduino which contains the SPI communications and registers to hold the commands and data that is sent on the SPI bus. The connection between both internal devices is WLAT.
 
-Due to this architecture there are more pins on an MCP41HVX1 chip than you might find on other single potentiometer digipots.  There are two extra pins for higer voltage to drive the resistor network. There are also extra pins for WLAT and SHDN which allows for greater control of the chip.
+Due to this architecture there are more pins on an MCP41HVX1 chip than you might find on other single potentiometer digipots.  There are two extra pins for a higher voltage to drive the resistor network. There are also extra pins for WLAT and SHDN which allow for greater control of the chip.
 
-WLAT is used to control when the wiper position information sent to the chip via the SPI interface is transfered to the resistor network to update the wiper position. If you leave WLAT low then any new wiper position data that is received via the SPI interface is automaticaly passed to the resister network and the wiper position is updated. If you have WLAT set to high any incomming wiper information is held in the register but the resistor network wiper position is not updated until the point WLAT is set to low again. WLAT can be wired directly to GND to force it low all the time which causes all wiper position information that is passed to the chip to automatically update the wiper position immediately on the resistor network.
+WLAT is used to control when the wiper position information sent to the chip via the SPI interface is transfered to the resistor network to update the wiper position. If you leave WLAT low then any new wiper position data that is received via the SPI interface is automaticaly passed to the resister network and the wiper position is updated. If you have WLAT set to high any incoming wiper information is held in the register but the resistor network wiper position is not updated until the point WLAT is set to low again. WLAT can be wired directly to GND to force it low all the time which causes all wiper position informatoin that is passed to the chip to automatically update the wiper position immediately on the resistor network.
+
 
 SHDN allows control of disabling the resistor network. If SHDN is set to low, P0A is disconnected and P0B is connected directly to P0W. Since there is some internal resistance, measuring the resistance across P0B and P0W will show close to 0. Setting SHDN to high enables the resistor network so that when you adjust the wiper position you will see resistance change on P0W. You can directly wire SHDN to Arduio + (positive) power to force it to high which will keep the resistor network enabled at all time. 
 
@@ -68,8 +69,8 @@ See the alternate wiring diagram if you are wiring either WLAT or SHDN to power 
 |  10 | CS (any digital pin)  |  3  | CS
 |  11 | SPI: MOSI             |  4  | SDI
 |  12 | SPI: MISO             |  5  | SDO
-| +5v | 3.3v is also supported|  6  | WLAT - wiring directly to HIGH (Arudino power) forces WLAT to always be enabled. Pass PIN_NOT_CONFIGURED in the constructor for WLAT parameter.
-| GND |                       |  7  | SHDN - wiring directly to Arduino GND forces the resistor network to always be enabled. Pass PIN_NOT_CONFIGURED in the constructor for SHDN parameter.
+| +5v | 3.3v is also supported|  6  | WLAT - wiring directly to GND forces WLAT to always be enabled. Pass PIN_NOT_CONFIGURED in the constructor for WLAT parameter.
+| GND |                       |  7  | SHDN - wiring directly to HIGH (Arduino power) forces the resistor network to always be enabled. Pass PIN_NOT_CONFIGURED in the constructor for SHDN parameter.
 | GND |                       |  8  | NC
 | GND |                       |  9  | GND
 | GND |                       | 10  | V-    (Connect to external power supply max 36 volts. Common ground with Arduino
@@ -79,7 +80,7 @@ See the alternate wiring diagram if you are wiring either WLAT or SHDN to power 
 |     |                       | 14  | V+    (Connect to external power supply max 36 volts)
 ```
 
-The full datasheet on the MCP41HVX1 family of chips can be found here (http://ww1.microchip.com/downloads/en/DeviceDoc/22233a.pdf);
+The full datasheet on the MCP41HVX1 family of chips can be found here (http://ww1.microchip.com/downloads/en/DeviceDoc/20005207B.pdf);
 
 
 ## Class Methods Documentation: ###
@@ -97,7 +98,7 @@ It is important to note that the SS Pin must always be specified. You cannot pas
     
     
 **Description:**
-Constructor for creating an instance of MCP41HVX1 with reduced functionaliy. Use this constructor only when both WLAT is connected directly to HIGH (Arudio power) and SHDN is connected directly to LOW (Arduio GND). See alternate wiring diagram.
+Constructor for creating an instance of MCP41HVX1 with reduced functionaliy. Use this constructor only when both WLAT is connected directly to GND and SHDN is connected directly to HIGH (Arduino power). See alternate wiring diagram.
     
 
 **Example:**
@@ -112,8 +113,8 @@ MCP41HVX1	MyDigipot( nCSPin);
     
 **Arguments:**
 - int nCSPin -   The digital pin used to control chip select for SPI communications. A valid pin number must be specified.
-- int nSHDNPin - The digital pin used to enable\disable the resistor network. Specify a value of MCP41HVX1_PIN_NOT_CONFIGURED if SHDN is connected to LOW (Arduino GND).
-- int nWLAT -    The digital pin used to enable\disable transfering the wiper value to the resistor network. Specify a value of MCP41HVX1_PIN_NOT_CONFIGURED if WLAT is connected to HIGH (Arduino power).
+- int nSHDNPin - The digital pin used to enable\disable the resistor network. Specify a value of MCP41HVX1_PIN_NOT_CONFIGURED if SHDN is connected to HIGH (Arduino VCC).
+- int nWLAT -    The digital pin used to enable\disable transfering the wiper value to the resistor network. Specify a value of MCP41HVX1_PIN_NOT_CONFIGURED if WLAT is connected to GND (Arduino GND).
     
 **Description:**
 Constructor for creating an instance of the MCP41HVX1 class which allows for specifying both SHDN and WLAT control pins. If a pin number is specified for WLAT it is defaulted to enabled within the constructor. If a pin number is specified for SHDN the resistor network is defaulted to enabled within the constructor.
@@ -362,7 +363,7 @@ This library is free software; you can redistribute it and/or modify it under th
 
 This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+To receive a copy of the GNU Lesser General Public License, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 
 
